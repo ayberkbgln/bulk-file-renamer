@@ -70,7 +70,8 @@ _v1
 
 ## Ekran Görüntüsü / Screenshot
 
-> Repoya screenshot eklemek istersen, buraya koyabilirsin.
+<img width="980" height="930" alt="image" src="https://github.com/user-attachments/assets/673b42b7-6d82-481d-af25-9336f418affc" />
+
 
 ## Katkıda Bulunma / Contributing
 
