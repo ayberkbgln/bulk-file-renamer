@@ -1,31 +1,31 @@
-# Bulk File Renamer / Toplu Dosya Yeniden Adlandırıcı
+# Bulk File Renamer
 
-Windows için GUI tabanlı toplu dosya yeniden adlandırma aracı. Tek bir arayüzde çoklu kural (bul/değiştir, önek, sonek, numaralandırma, harf dönüşümü) aynı anda uygulanabilir. Python + Tkinter ile yazılmıştır.
+A Windows GUI tool for bulk file renaming. Combine multiple rules — find/replace, prefix, suffix, sequential numbering, and case conversion — in a single pass. Written in Python with Tkinter.
 
-A Windows GUI tool for bulk file renaming. Combine multiple rules (find/replace, prefix, suffix, numbering, case conversion) in a single pass. Written in Python with Tkinter.
+## Screenshot
 
----
+<img width="980" height="930" alt="Bulk File Renamer GUI" src="https://github.com/user-attachments/assets/673b42b7-6d82-481d-af25-9336f418affc" />
 
-## Özellikler / Features
+## Features
 
-- **Bul ve Değiştir** — düz metin veya regex
-- **Çoklu Bul/Değiştir** — satır satır yüzlerce eşleştirme (ör: `eskiAd yeniAd`)
-- **Önek / Sonek** ekleme
-- **Numaralandırma** — `foto001`, `foto002`, ... (taban ad + başlangıç + basamak)
-- **Harf Dönüşümü** — küçük / BÜYÜK / İlk Harfler
-- **Alt klasör desteği** — opsiyonel olarak alt klasörleri de tara
-- **Uzantı filtresi** — ör. `.jpg,.png`
-- **Önizleme** — uygulamadan önce yeni adları gör (çakışmalar renkli vurgulanır)
-- **Geri Al** — son işlemi geri döndür
-- **Güvenli yeniden adlandırma** — iki aşamalı rename (`a ↔ b` takası da çalışır)
+- **Find & Replace** — literal or regex
+- **Multi Find/Replace** — hundreds of pairs, one per line (e.g. `oldName newName`)
+- **Prefix / Suffix** — prepend or append text (suffix goes before the extension)
+- **Sequential Numbering** — `photo001`, `photo002`, ... (base name + start + padding)
+- **Case Conversion** — lower / UPPER / Title Case
+- **Recursive** — optionally walk subfolders
+- **Extension Filter** — e.g. `.jpg,.png`
+- **Preview** — see new names before applying (conflicts highlighted)
+- **Undo** — revert the last operation
+- **Safe Renaming** — two-phase rename that handles `a ↔ b` swaps correctly
 
-## Kurulum / Installation
+## Installation
 
-### Seçenek 1: Hazır .exe (önerilen)
+### Option 1: Prebuilt .exe (recommended)
 
-[Releases](../../releases) sayfasından en son sürümün `.exe` dosyasını indir ve çalıştır. Python kurulumu gerekmez.
+Download the latest `.exe` from the [Releases](../../releases) page and run it. No Python installation required.
 
-### Seçenek 2: Kaynaktan çalıştır
+### Option 2: Run from source
 
 ```bash
 git clone https://github.com/ayberkbgln/bulk-file-renamer.git
@@ -33,50 +33,47 @@ cd bulk-file-renamer
 python toplu_rename.py
 ```
 
-Python 3.8+ gerekli. Tkinter standart kütüphanede olduğu için ek bağımlılık yok.
+Requires Python 3.8+. Tkinter ships with the standard library, so no extra dependencies are needed.
 
-### Seçenek 3: Kendi .exe'ni derle
+### Option 3: Build your own .exe
 
 ```bash
 pip install pyinstaller
-pyinstaller --onefile --windowed --name "TopluDosyaYenidenAdlandirici" toplu_rename.py
+pyinstaller --onefile --windowed --name "BulkFileRenamer" toplu_rename.py
 ```
 
-Çıktı `dist/` klasöründe olur.
+The executable is written to the `dist/` folder.
 
-## Kullanım / Usage
+## Usage
 
-1. **Gözat...** ile klasörü seç
-2. İsteğe bağlı: alt klasörleri dahil et, uzantı filtresi ekle
-3. İstediğin işlemleri işaretle ve değerleri gir
-4. **Önizleme** → listeyi kontrol et (yeşil=OK, kırmızı=çakışma)
-5. **Uygula** → onay ver
-6. Hata olursa **Geri Al** ile geri dönebilirsin
+1. Click **Gözat...** (Browse) and pick a folder
+2. Optionally: enable recursion, add an extension filter
+3. Tick the operations you want and fill in the values
+4. Click **Önizleme** (Preview) and review the list (green = OK, red = conflict)
+5. Click **Uygula** (Apply) and confirm
+6. If anything looks wrong, click **Geri Al** (Undo) to revert
 
-### Çoklu Bul/Değiştir Formatı
+> The UI labels are currently in Turkish; an English localization is planned.
 
-Her satır bir kural:
+### Multi Find/Replace Format
+
+One rule per line:
 
 ```
-eskiKelime yeniKelime
-IMG_ Tatil_
-DSC_ Foto_
+oldWord newWord
+IMG_ Holiday_
+DSC_ Photo_
 _v1
 ```
 
-- **Ayraç:** TAB veya boşluk (ilk boşluk grubu ayraç kabul edilir)
-- **Tek kelime yazarsan** → o metin silinir (yukarıdaki `_v1` örneği)
-- **`#` ile başlayan satırlar** yorum sayılır
+- **Separator:** TAB or whitespace (the first run of whitespace is treated as the separator)
+- **Single token on a line** → that text is deleted (the `_v1` example above strips `_v1`)
+- **Lines starting with `#`** are treated as comments and skipped
 
-## Ekran Görüntüsü / Screenshot
+## Contributing
 
-<img width="980" height="930" alt="image" src="https://github.com/user-attachments/assets/673b42b7-6d82-481d-af25-9336f418affc" />
+Issues and pull requests are welcome. Feel free to open an issue for feature requests or bug reports.
 
-
-## Katkıda Bulunma / Contributing
-
-Pull request ve issue'lar açıktır. Öneriler için issue açmaktan çekinme.
-
-## Lisans / License
+## License
 
 [MIT](LICENSE)
