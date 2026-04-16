@@ -1,6 +1,6 @@
 # Bulk File Renamer
 
-A Windows GUI tool for bulk file renaming. Combine multiple rules — find/replace, prefix, suffix, sequential numbering, and case conversion — in a single pass. Bilingual UI (Turkish / English). Written in Python with Tkinter.
+A Windows GUI tool for bulk file renaming. Combine multiple rules — find/replace, multi-pair find/replace, prefix, suffix, sequential numbering, and case conversion — in a single pass. Bilingual UI (Turkish / English), dark mode, rule profiles, drag-and-drop, and more.
 
 ## Screenshot
 
@@ -8,18 +8,31 @@ A Windows GUI tool for bulk file renaming. Combine multiple rules — find/repla
 
 ## Features
 
+### Renaming rules (combine freely)
 - **Find & Replace** — literal or regex
-- **Multi Find/Replace** — hundreds of pairs, one per line (e.g. `oldName newName`)
-- **Prefix / Suffix** — prepend or append text (suffix goes before the extension)
+- **Multi Find/Replace** — hundreds of pairs, one per line (`oldName newName`)
+- **Prefix / Suffix** — prepend / append text (suffix goes before the extension)
 - **Sequential Numbering** — `photo001`, `photo002`, ... (base name + start + padding)
 - **Case Conversion** — lower / UPPER / Title Case
-- **Recursive** — optionally walk subfolders
-- **Extension Filter** — e.g. `.jpg,.png`
-- **Preview** — see new names before applying (conflicts highlighted)
+
+### Workflow
+- **Preview** with color-coded status (green = OK, red = conflict, orange = excluded)
+- **Exclude rows** from the preview (double-click, Space, or Delete key)
+- **Safe two-phase rename** — `a ↔ b` swaps work correctly
 - **Undo** — revert the last operation
-- **Safe Renaming** — two-phase rename that handles `a ↔ b` swaps correctly
-- **Bilingual UI** — Turkish and English, switchable at runtime
-- **Custom icon** and **About / Contact** dialog
+- **Recursive** subfolder traversal
+- **Extension filter** (e.g. `.jpg,.png`)
+- **Sorting** — by name, modified date, or size (asc/desc)
+
+### Quality of life
+- **Light / Dark theme** — switchable at runtime
+- **Bilingual UI** — Turkish and English
+- **Drag & drop** — drop a folder onto the window
+- **Recent folders** — last 10 folders in a dropdown
+- **Rule profiles** — save / load your settings to a `.json` file
+- **Keyboard shortcuts** — Ctrl+O, Ctrl+P, Ctrl+Enter, Ctrl+Z, Ctrl+S, Ctrl+L, Del, F1
+- **Tooltips** on every button
+- **About / Contact** dialog with clickable links
 
 ## Installation
 
@@ -32,33 +45,37 @@ Download the latest `BulkFileRenamer.exe` from the [Releases](../../releases) pa
 ```bash
 git clone https://github.com/ayberkbgln/bulk-file-renamer.git
 cd bulk-file-renamer
+pip install tkinterdnd2   # optional, for drag & drop
 python toplu_rename.py
 ```
 
-Requires Python 3.8+. Tkinter ships with the standard library. Pillow is only required if you want to regenerate the icon (`python make_icon.py`).
+Requires Python 3.8+. Tkinter ships with the standard library. `tkinterdnd2` is optional — the app works without it, just without drag-and-drop.
 
 ### Option 3: Build your own .exe
 
 ```bash
-pip install pyinstaller pillow
+pip install pyinstaller pillow tkinterdnd2
 python make_icon.py
-pyinstaller --onefile --windowed --icon=app.ico --add-data "app.ico;." --add-data "icon_256.png;." --name "BulkFileRenamer" toplu_rename.py
+pyinstaller --onefile --windowed --icon=app.ico \
+            --add-data "app.ico;." --add-data "icon_256.png;." \
+            --collect-all tkinterdnd2 \
+            --name "BulkFileRenamer" toplu_rename.py
 ```
 
-The executable is written to the `dist/` folder.
+## Keyboard shortcuts
 
-## Usage
+| Shortcut       | Action             |
+| -------------- | ------------------ |
+| `Ctrl+O`       | Browse folder      |
+| `Ctrl+P`       | Preview            |
+| `Ctrl+Enter`   | Apply              |
+| `Ctrl+Z`       | Undo               |
+| `Ctrl+S`       | Save profile       |
+| `Ctrl+L`       | Load profile       |
+| `Del` / `Space`| Exclude selected   |
+| `F1`           | About              |
 
-1. Click **Browse...** and pick a folder
-2. Optionally: enable recursion, add an extension filter
-3. Tick the operations you want and fill in the values
-4. Click **Preview** and review the list (green = OK, red = conflict)
-5. Click **Apply** and confirm
-6. If anything looks wrong, click **Undo** to revert
-
-Use the language dropdown in the top-left to switch between Turkish and English at any time.
-
-### Multi Find/Replace Format
+## Multi Find/Replace format
 
 One rule per line:
 
@@ -70,7 +87,7 @@ _v1
 ```
 
 - **Separator:** TAB or whitespace (the first run of whitespace is the separator)
-- **Single token on a line** → that text is deleted (`_v1` strips `_v1` from names)
+- **Single token on a line** → that text is deleted (the `_v1` line strips `_v1` from names)
 - **Lines starting with `#`** are treated as comments and skipped
 
 ## About / Contact
